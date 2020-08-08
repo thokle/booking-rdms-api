@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using booking_rdms_api.models;
-
+using booking_rdms_api.daos;
 namespace booking_rdms_api.booking_rdms_api.services
 {
     public class MemberService: IMemberService
 
     {
-                public MemberService()
+        MemberDao dao;
+
+        public MemberService()
         {
+            dao = new MemberDao();
         }
 
         public Task<int> CreateOrUpDate(models.Member member)
         {
-            throw new NotImplementedException();
+            return dao.CreateOrUpDate(member: member);
         }
 
         public Task<List<models.Member>> GetUserByUserNameAndEmail(string username, string email, string password)
         {
-            throw new NotImplementedException();
+            return dao.GetUserByUserNameAndEmail(username: username, email: email, password: password);
         }
 
         public Task<List<UserPictures>> GetUserPictures(int memberid)
         {
-            throw new NotImplementedException();
+            return dao.GetUserPictures(memberid: memberid);
         }
     }
 }
