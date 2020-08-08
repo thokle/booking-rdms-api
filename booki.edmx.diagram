@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bd1e28bd685a4abda1b307160ac88465" Name="Diagram1">
+        <EntityTypeShape EntityType="bookiModel.Activity" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bookiModel.Address" Width="1.5" PointX="8.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="bookiModel.Card" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="bookiModel.Club" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="bookiModel.Member" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="bookiModel.paymentreport" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="bookiModel.sysdiagram" Width="1.5" PointX="8.875" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bookiModel.MemberActivity" Width="1.5" PointX="7.5" PointY="14.375" IsExpanded="true" />
+        <AssociationConnector Association="bookiModel.FK_Activity_Club" ManuallyRouted="false" />
+        <AssociationConnector Association="bookiModel.FK_Activity_Club1" ManuallyRouted="false" />
+        <AssociationConnector Association="bookiModel.FK_MemberActivities_Activity" ManuallyRouted="false" />
+        <AssociationConnector Association="bookiModel.FK_Address_Club" ManuallyRouted="false" />
+        <AssociationConnector Association="bookiModel.FK_Address_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="bookiModel.FK_paymentreport_paymentreport" ManuallyRouted="false" />
+        <AssociationConnector Association="bookiModel.FK_member_club" ManuallyRouted="false" />
+        <AssociationConnector Association="bookiModel.FK_MemberActivities_Member" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="bookiModel.ClubPicture" Width="1.5" PointX="3" PointY="7.875" />
+        <EntityTypeShape EntityType="bookiModel.UserPicture" Width="1.5" PointX="5.25" PointY="14" />
+        <AssociationConnector Association="bookiModel.FK_ClubPictures_Club" />
+        <AssociationConnector Association="bookiModel.FK_paymentreport_paymentreport1" />
+        <AssociationConnector Association="bookiModel.FK_UserPictures_Member" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
