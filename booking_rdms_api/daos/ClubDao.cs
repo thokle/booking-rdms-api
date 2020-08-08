@@ -52,7 +52,7 @@ namespace booking_rdms_api.booking_rdms_api.daos
 
         
                 var res = await bookiEntities.SaveChangesAsync();
-                var tmp = new Tuple<models.Club, models.Member, int>(ConvertToClubModel(club.Result), ConvertToMemberModel(member),res);
+                var tmp = new Tuple<models.Club, models.Member, int>(ConvertToClubModel(club.Result), ConvertToMemberModel(member.Result),res);
                 return await Task.FromResult(tmp);
             } catch (SqlException ex)
             {
@@ -72,19 +72,21 @@ namespace booking_rdms_api.booking_rdms_api.daos
             }
         }
 
-        private Club Convert(models.Club club)
+        private Club Convert(models.Club club) => new Club()
         {
-            return new Club()
-            {
-
-
-            };
-        }
+            name = club.Name,
+            type = club.Type,
+            createdate = club.Createdate
+        };
 
         private static models.Club ConvertToClubModel(Club club) {
             return new models.Club()
             {
-
+                ClubId = club.clubId,
+                Name = club.name,
+                Members = ConvertToModelMembers(club.Members),
+                Phone = club.phone,
+                Activities = ConvertToModelActivity(club.Activities)
             };
 
         }
@@ -95,6 +97,29 @@ namespace booking_rdms_api.booking_rdms_api.daos
             {
 
             };
+        }
+
+        private static List<models.Member> ConvertToModelMembers(ICollection<Member> members) {
+            var res = new List<models.Member>();
+
+            members.ToList().ForEach(s =>
+            {
+                
+
+            });
+
+            return res;
+        }
+
+
+        private static List<models.Activity> ConvertToModelActivity(ICollection<Activity> activities) {
+            var res = new List<models.Activity>();
+
+            activities.ToList().ForEach(a =>
+            {
+
+            });
+            return res;
         }
     }
 }

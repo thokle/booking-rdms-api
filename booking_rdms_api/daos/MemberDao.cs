@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace booking_rdms_api.daos
 {
-    class UserDao
+    public class MemberDao
     {
         private bookiEntities bookiEntities;
 
-        public UserDao()
+        public MemberDao()
         {
             bookiEntities = new bookiEntities();
             bookiEntities.Configuration.LazyLoadingEnabled = true;
@@ -57,11 +57,11 @@ namespace booking_rdms_api.daos
         }
 
 
-        public Task<List<UserPictures>> GetUserPictures(int memberid)
+        public async Task<List<UserPictures>> GetUserPictures(int memberid)
         {
             try
             {
-              return  bookiEntities.UserPictures.Where(w => w.memberid == memberid).Select(m => new models.UserPictures() { }).ToListAsync();
+              return await bookiEntities.UserPictures.Where(w => w.memberid == memberid).Select(m => new models.UserPictures() { }).ToListAsync();
             } catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
@@ -79,7 +79,9 @@ namespace booking_rdms_api.daos
                 password = member.Password,
                 email = member.Email,
                 email2 = member.Email2,
-                phone = member.Phone
+                phone = member.Phone,
+                clubid = member.Clubid
+                
             };
         }
 
