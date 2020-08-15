@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace booking_rdms_api.booking_rdms_api.services
 {
@@ -10,7 +11,7 @@ namespace booking_rdms_api.booking_rdms_api.services
     {
         Task<models.Club> GetClub(string name);
         Task<int> CreateOrUpDate(models.Club club);
-        Task<Tuple<models.Club, models.Member, int>> AddMemberToClub(int memberid, int clubid);
+        Task<Tuple<models.Club, models.Member, int>> AddMemberToClub(ObjectId memberid, ObjectId clubid);
          }
 
 }

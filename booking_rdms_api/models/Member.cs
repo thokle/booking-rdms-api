@@ -4,18 +4,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace booking_rdms_api.models
 {
-
+    [Serializable]
     public class Member
     {
 
         public Member()
         {
             activities = new List<Activity>();
+            Id = ObjectId.GenerateNewId();
 
         }
+        
+       
+        private int MySuperId { get; set; }
+        private int revision;
+        [BsonId]
+        private ObjectId id;
         private int memberId;
         private string firstname;
         private string lastname;
@@ -57,6 +66,8 @@ namespace booking_rdms_api.models
         public List<UserPictures> UserPictures { get => userPictures; set => userPictures = value; }
         public List<Card> Cards1 { get => Cards; set => Cards = value; }
         public int Phone { get => phone; set => phone = value; }
+        public ObjectId Id { get => id; set => id = value; }
+        public int Revision { get => revision; set => revision = value; }
     }
   
 }

@@ -3,57 +3,68 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace booking_rdms_api.booking_rdms_api.daos
 {
     class ClubDao
     {
         private bookiEntities bookiEntities;
-
+        private booking_rdms_api.utls.MongoDbDriver driver;
+        private IMongoDatabase mongo { get; set; }
+        private IMongoCollection<models.Club> mongoCollection { get; set; }
 
         public ClubDao()
         {
-            bookiEntities = new bookiEntities();
+            Start();
         }
+        
+        
+        private void Start()
+        {
+            driver = new booking_rdms_api.utls.MongoDbDriver();
+            mongo = driver.Connect();
+            mongoCollection = mongo.GetCollection<models.Club>("clubs");
+            if (mongoCollection == null)
+            {
+                mongo.CreateCollection("clubs");
+            }
+        }
+
 
         public async Task<models.Club> GetClub(string name)
         {
             try
             {
-                return await bookiEntities.Clubs.Where(w => w.name.Equals(name.Trim())).Select(e => new models.Club() {
+                var filter = Builders<models.Club>.Filter.Where(e =>  e.Name.Equals(name) );
 
-                }).FirstOrDefaultAsync();
+             var res  =   mongoCollection.FindAsync(filter);
+
+             return  await res.Result.SingleOrDefaultAsync();
+
             } catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public async Task<Tuple<models.Club, models.Member, int>> AddMemberToClub(int memberid, int clubid)
+        public async Task<Tuple<models.Club, models.Member, int>> AddMemberToClub(ObjectId memberid, ObjectId clubid)
         {
             try
             {
-                var club = bookiEntities.Clubs.Where(m => m.clubId == clubid).FirstOrDefaultAsync();
 
-                var member = await club.ContinueWith<Member>(c =>
-                {
-                    return bookiEntities.Members.Where(me => me.memberId == memberid).FirstOrDefault();
-                }).ContinueWith( re =>
-                {
-                    re.Result.clubid = clubid;
-                    club.Result.Members.Add(re.Result);
-                    bookiEntities.Clubs.AddOrUpdate(club.Result);
-                    bookiEntities.Members.AddOrUpdate(re.Result);
-                    return re;
-                });
-
-        
-                var res = await bookiEntities.SaveChangesAsync();
-                var tmp = new Tuple<models.Club, models.Member, int>(ConvertToClubModel(club.Result), ConvertToMemberModel(member.Result),res);
-                return await Task.FromResult(tmp);
+                var filterClub = Builders<models.Club>.Filter.Where(e => e.ClubId.Equals(clubid));
+                var filterMember = Builders<models.Member>.Filter.Where((member => member.Id.Equals(memberid)));
+                
+                
+               var members =  mongo.GetCollection<models.Member>("members");
+             
+                return null;
             } catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
@@ -82,7 +93,7 @@ namespace booking_rdms_api.booking_rdms_api.daos
         private static models.Club ConvertToClubModel(Club club) {
             return new models.Club()
             {
-                ClubId = club.clubId,
+        
                 Name = club.name,
                 Members = ConvertToModelMembers(club.Members),
                 Phone = club.phone,

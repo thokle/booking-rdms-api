@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace booking_rdms_api.models
 {
+    [Serializable]
     public class Club
     {
 
@@ -15,9 +18,11 @@ namespace booking_rdms_api.models
             this.Activities = new List<models.Activity>();
             this.Adresses = new List<models.Address>();
             this.Members = new List<models.Member>();
+            clubId = ObjectId.GenerateNewId();
         }
 
-        private int clubId;
+        [BsonId]
+        private ObjectId clubId;
         private string name;
         private string type;
         private Nullable<System.DateTime> createdate;
@@ -31,7 +36,7 @@ namespace booking_rdms_api.models
 
         private List<Member> members;
 
-        public int ClubId { get => clubId; set => clubId = value; }
+        public ObjectId ClubId { get => clubId; set => clubId = value; }
         public string Name { get => name; set => name = value; }
         public string Type { get => type; set => type = value; }
         public DateTime? Createdate { get => createdate; set => createdate = value; }

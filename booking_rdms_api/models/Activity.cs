@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace booking_rdms_api.models
 {
+    [Serializable]
    public class Activity
     {
         public Activity()
         {
             this.MemberActivities = new HashSet<models.MemberActivity>();
+            activityId = ObjectId.GenerateNewId();
+           
         }
 
-        private int activityId;
+        
+        [BsonId]
+        private ObjectId activityId;
         private string type;
         private string name;
         private Nullable<int> maxparticipates;
@@ -28,7 +35,7 @@ namespace booking_rdms_api.models
 
         private ICollection<models.MemberActivity> memberActivities;
 
-        public int ActivityId { get => activityId; set => activityId = value; }
+        public ObjectId ActivityId { get => activityId; set => activityId = value; }
         public string Type { get => type; set => type = value; }
         public string Name { get => name; set => name = value; }
         public int? Maxparticipates { get => maxparticipates; set => maxparticipates = value; }
